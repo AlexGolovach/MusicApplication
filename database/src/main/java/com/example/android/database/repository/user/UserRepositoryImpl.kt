@@ -1,6 +1,7 @@
 package com.example.android.database.repository.user
 
 import android.content.SharedPreferences
+import android.text.TextUtils
 import android.util.Log
 import com.example.android.database.Callback
 import com.example.android.database.model.User
@@ -36,6 +37,7 @@ class UserRepositoryImpl(private val sharedPreferences: SharedPreferences) :
     ) {
         val databaseUsers = FirebaseDatabase.getInstance().getReference("users")
 
+
         val userNameQuery = databaseUsers
             .orderByChild("users")
             .equalTo(userName)
@@ -56,7 +58,7 @@ class UserRepositoryImpl(private val sharedPreferences: SharedPreferences) :
                                 val user = User(userId!!, userName, userEmail, userPassword)
 
                                 databaseUsers.child(userId).setValue(user)
-                                currentUser = user
+
                                 callback.onSuccess(user)
                             } else {
                                 callback.onError(NullPointerException("User exist!"))

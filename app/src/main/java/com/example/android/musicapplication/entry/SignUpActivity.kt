@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
+import android.text.TextUtils
+import android.widget.Toast
 import com.example.android.database.Callback
 import com.example.android.database.Injector
 import com.example.android.database.model.User
 import com.example.android.musicapplication.R
-import com.example.android.musicapplication.utils.TextWatcherAdapter
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity(), Callback<User> {
@@ -23,38 +23,22 @@ class SignUpActivity : AppCompatActivity(), Callback<User> {
     }
 
     private fun initListeners() {
-        edit_username.addTextChangedListener(object : TextWatcherAdapter() {
-            override fun afterTextChanged(s: Editable?) {
-                val userName = edit_username.text.toString()
-
-                edit_email.addTextChangedListener(object : TextWatcherAdapter() {
-                    override fun afterTextChanged(s: Editable?) {
-                        val userEmail = edit_email.text.toString()
-
-                        edit_password.addTextChangedListener(object : TextWatcherAdapter() {
-                            override fun afterTextChanged(s: Editable?) {
-                                val userPassword = edit_password.text.toString()
-
-                                updateButtonState(userName, userEmail, userPassword)
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    }
-
-    private fun updateButtonState(
-        userName: String,
-        userEmail: String,
-        userPassword: String
-    ) {
-        btn_sign_up.isEnabled = true
-
         btn_sign_up.setOnClickListener {
+            if (!TextUtils.isEmpty(edit_username.text.toString()) && !TextUtils.isEmpty(edit_email.text.toString()) && !TextUtils.isEmpty(
+                    edit_password.text.toString()
+                )
+            ) {
+                val userRepository = Injector.getUserRepositoryImpl()
+                userRepository.signUp(
+                    edit_username.text.toString(),
+                    edit_email.text.toString(),
+                    edit_password.text.toString(),
+                    this
+                )
+            } else {
+                Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show()
+            }
 
-            val userRepository = Injector.getUserRepositoryImpl()
-            userRepository.signUp(userName, userEmail, userPassword, this)
         }
     }
 
