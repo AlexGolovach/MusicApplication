@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.android.musicapplication">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="com.example.android.database.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_application_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_application_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".activities.SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTeam">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".entry.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".entry.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".artistdetails.ArtistActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".player.PlayerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PlayerTheme" />
+        <activity android:name=".playlist.PlaylistActivity" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+    </application>
+
+</manifest>
