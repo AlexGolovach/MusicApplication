@@ -10,9 +10,12 @@ import com.example.android.database.Callback
 import com.example.android.database.Injector
 import com.example.android.database.model.User
 import com.example.android.musicapplication.R
+import com.example.android.musicapplication.utils.DialogProgress
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity(), Callback<User> {
+
+    private val dialogProgress = DialogProgress()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,8 @@ class SignUpActivity : AppCompatActivity(), Callback<User> {
                     edit_password.text.toString()
                 )
             ) {
+                dialogProgress.show(supportFragmentManager, "dialog_progress")
+
                 val userRepository = Injector.getUserRepositoryImpl()
                 userRepository.signUp(
                     edit_username.text.toString(),
@@ -52,9 +57,10 @@ class SignUpActivity : AppCompatActivity(), Callback<User> {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.error)
                 .setMessage(R.string.problem_with_entry)
-                .setIcon(R.drawable.splash_screen_image)
+                .setIcon(R.drawable.ic_application_launcher)
                 .setCancelable(false)
                 .setNegativeButton(R.string.ok) { dialog, _ ->
+                    dialogProgress.dismiss()
                     dialog.cancel()
                 }
             val alertDialog = builder.create()

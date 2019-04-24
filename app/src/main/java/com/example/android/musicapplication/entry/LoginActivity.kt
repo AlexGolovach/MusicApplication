@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -20,6 +22,7 @@ import java.lang.NullPointerException
 class LoginActivity : AppCompatActivity(), Callback<User> {
 
     private lateinit var sharedPreferences: SharedPreferences
+    private val dialogProgress = DialogProgress()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,8 @@ class LoginActivity : AppCompatActivity(), Callback<User> {
 
         btn_login.setOnClickListener {
 
+            dialogProgress.show(supportFragmentManager,"dialog_progress")
+
             val userRepository = Injector.getUserRepositoryImpl()
             userRepository.login(userEmail, userPassword, this)
 
@@ -71,6 +76,8 @@ class LoginActivity : AppCompatActivity(), Callback<User> {
         editor.apply()
 
         startActivity(Intent(this, MainActivity::class.java))
+        dialogProgress.dismiss()
+
         finish()
     }
 
@@ -80,9 +87,10 @@ class LoginActivity : AppCompatActivity(), Callback<User> {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(getString(R.string.error))
                 .setMessage(getString(R.string.problem_with_entry))
-                .setIcon(R.drawable.splash_screen_image)
+                .setIcon(R.drawable.ic_application_launcher)
                 .setCancelable(false)
-                .setNegativeButton(getString(R.string.ok)) { dialog, _ ->
+                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                    dialogProgress.dismiss()
                     dialog.cancel()
                 }
                 .create()
