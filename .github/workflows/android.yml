@@ -1,4 +1,4 @@
-name: Build & Publish Debug APK
+name: Build apk
 
 on:
  push:
@@ -17,9 +17,9 @@ jobs:
     - name: Make Gradle executable
       run: chmod +x ./gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: bash ./gradlew build --stacktrace
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: bash ./gradlew assembleDebug --stacktrace
     - name: Releasing using Hub
       uses: ShaunLWM/action-release-debugapk@master
       env:
